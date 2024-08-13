@@ -39,7 +39,7 @@ pipeline = transformers.pipeline(
     "text-generation",
     model=model_id,
     model_kwargs={"torch_dtype": torch.bfloat16},
-    device="mps", 
+    device="cuda", 
 )
 
 lock = threading.Lock()
@@ -124,7 +124,7 @@ def local_selector(messages:List[Message],stream=True,rag=True,course=None):
         if course == "EE 106B":
             picklefile = "eecs106b.pkl"
         elif course == "CS 61A":
-            picklefile = "cs61a_7_24.pkl"
+            picklefile = "cs61a.pkl"
         else:
             picklefile = "Berkeley.pkl"
         current_dir = "roarai/rag/file_conversion_router/embedding"     # Modify this path to the directory containing the embedding pickle files
