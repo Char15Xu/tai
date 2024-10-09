@@ -160,8 +160,10 @@ def create_main_table(filename, pickle_data):
             if col.startswith('embedding_list'):
                 embedding_key = col.replace('embedding_list_', '')
                 row.append(str(pickle_data['embedding_list'][i][embedding_key]))
-            else:
+            elif len(pickle_data[col]) > 0:
                 row.append(str(pickle_data[col][i]))
+            else:
+                row.append('')  # Append an empty string or a default value if the list is empty
         
         placeholders = ', '.join(['?' for _ in columns])
         cur.execute(f'''
@@ -181,8 +183,9 @@ def create_main_table(filename, pickle_data):
 
 def main():
     ee106b = "rag/file_conversion_router/embedding/eecs106b.pkl"
-    path_to_pickle = ee106b
-    # path_to_pickle = "rag/file_conversion_router/embedding/cs61a.pkl"
+    cs61a = "rag/file_conversion_router/embedding/cs61a.pkl"
+    berkeley = "rag/file_conversion_router/embedding/Berkeley.pkl"
+    path_to_pickle = berkeley
 
     with open(path_to_pickle, 'rb') as f:
         data_loaded = pickle.load(f)

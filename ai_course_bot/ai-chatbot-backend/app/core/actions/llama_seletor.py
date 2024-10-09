@@ -17,8 +17,8 @@ import sqlite3
 
 # Set the environment variable to use the SQL database
 SQLDB = True
-EXT_VECTOR_PATH = "ai_course_bot/ai-chatbot-backend/app/core/actions/dist/debug/vector0"
-EXT_VSS_PATH = "ai_course_bot/ai-chatbot-backend/app/core/actions/dist/debug/vss0"
+EXT_VECTOR_PATH = "/Users/charlesxu/roarai/ai_course_bot/ai-chatbot-backend/app/core/actions/dist/debug/vector0.dylib"
+EXT_VSS_PATH = "/Users/charlesxu/roarai/ai_course_bot/ai-chatbot-backend/app/core/actions/dist/debug/vss0"
 
 class Message(BaseModel):
     role: str
@@ -29,10 +29,25 @@ embedding_model = BGEM3FlagModel('BAAI/bge-m3', use_fp16=True)
 
 load_dotenv()
 
-# model_id = "neuralmagic/Mistral-Nemo-Instruct-2407-FP8"
-# model_id = "google/gemma-7b"
-# model_id = "meta-llama/Meta-Llama-3.1-8B"
-model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
+model = "nemo"
+
+if model == "llama3.1":
+    # Nemo Instruct Model
+    # from mistral_inference.transformer import Transformer
+    # from mistral_inference.generate import generate
+
+    # from mistral_common.tokens.tokenizers.mistral import MistralTokenizer
+    # from mistral_common.protocol.instruct.messages import UserMessage
+    # from mistral_common.protocol.instruct.request import ChatCompletionRequest
+
+    model_id = "neuralmagic/Mistral-Nemo-Instruct-2407-FP8"
+elif model == "llama3.1":
+    model_id = "meta-llama/Meta-Llama-3.1-8B-Instruct"
+elif model == "gemma":
+    model_id = "google/gemma-7b"
+else:
+    model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
+
 auto_tokenizer = transformers.AutoTokenizer.from_pretrained(model_id)
 print("Loading model...")
 pipeline = transformers.pipeline(
